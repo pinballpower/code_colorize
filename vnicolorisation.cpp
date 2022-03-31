@@ -1,17 +1,17 @@
 #include <filesystem>
 
-#include "vniframeprocessor.h"
+#include "vnicolorisation.h"
 
 
-VniColor::VniColor()
+VniColorisation::VniColorisation()
 {
 }
 
-VniColor::~VniColor()
+VniColorisation::~VniColorisation()
 {
 }
 
-bool VniColor::configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source)
+bool VniColorisation::configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source)
 {
 	string basename = pt_source.get("basename", "");
 	if (basename == "") {
@@ -35,31 +35,37 @@ bool VniColor::configure_from_ptree(boost::property_tree::ptree pt_general, boos
 	delete animations;
 	animations = new VniAnimationSet(basename + ".vni");
 
+	// count animations and frames
+	frame_count = current_animation = current_frame = 0;
+	for (auto a : animations->animations) {
+		frame_count += a->frames.size();
+	}
+
 }
 
-DMDFrame* VniColor::process_frame(DMDFrame* f)
+DMDFrame* VniColorisation::process_frame(DMDFrame* f)
 {
 	// TODO
 	return f;
 }
 
-DMDFrame* VniColor::next_frame(bool blocking)
+DMDFrame* VniColorisation::next_frame(bool blocking)
 {
 	return nullptr;
 	// TODO
 }
 
-bool VniColor::finished()
+bool VniColorisation::finished()
 {
 	return !(frame_ready());
 }
 
-bool VniColor::frame_ready()
+bool VniColorisation::frame_ready()
 {
 	return current_frame < frame_count;
 }
 
-void VniColor::get_properties(SourceProperties* p)
+void VniColorisation::get_properties(SourceProperties* p)
 {
 	p->bitsperpixel = 8;
 	if (animations) {

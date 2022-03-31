@@ -9,12 +9,12 @@
 #include "coloring.h"
 #include "vnianimationset.h"
 
-class VniColor : DMDFrameProcessor, DMDSource {
+class VniColorisation : DMDFrameProcessor, DMDSource {
 
 public:
 
-	VniColor();
-	~VniColor();
+	VniColorisation();
+	~VniColorisation();
 	virtual bool configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source);
 
 	virtual DMDFrame* process_frame(DMDFrame *f);

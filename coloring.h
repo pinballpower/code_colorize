@@ -1,9 +1,10 @@
+#pragma once
+
 #include <cstring>
 #include <map>
 #include <vector>
 
 #include "palette.h"
-#include "mask.h"
 #include "mapping.h"
 
 using namespace std;

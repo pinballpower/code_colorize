@@ -1,3 +1,3 @@
 #pragma once
 
-#define VNICOLORING
+#define VNICOLORING 1

@@ -75,6 +75,8 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 			transition_from = i;
 		}
 		animation_duration += frame->delay;
+
+		frames.push_back(frame);
 	}
 };
 

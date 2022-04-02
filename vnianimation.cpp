@@ -13,17 +13,8 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 	name = name_length > 0 ? read_string(is, name_length) : "<undefined>";
 	BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " read animation name as " << name;
 
-	// other data (mostly unused)
-	cycles = read_int16_be(is);
-	hold = read_int16_be(is);
-	clock_from = read_int16_be(is);
-	clock_small = (read_u8(is) != 0);
-	clock_in_front = read_u8(is) != 0;
-	clock_offsetX = read_int16_be(is);
-	clock_offsetY = read_int16_be(is);
-	refresh_delay = read_int16_be(is);
-	type = read_u8(is);
-	fsk = read_u8(is);
+	// skip 16 bytes of unused data
+	is.ignore(16);
 
 	int num_frames = read_int16_be(is);
 	if (num_frames < 0) {

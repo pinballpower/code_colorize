@@ -5,6 +5,7 @@
 
 #include "switchmode.h"
 #include "animationframe.h"
+#include "palette.h"
 #include "../dmd/color.h"
 
 using namespace std;
@@ -49,25 +50,6 @@ public:
 	/// length in milliseconds
 	/// </summary>
 	unsigned int animation_duration;
-
-	// begin region unused Props
-	int cycles;
-	int hold;
-	int clock_from;
-	bool clock_small;
-	bool clock_in_front;
-	int clock_offsetX;
-	int clock_offsetY;
-	int refresh_delay;
-	int type;
-	int fsk;
-
-	int palette_index;
-	DMDColor *animation_colors;
-	AnimationEditMode edit_mode;
-	int transition_from;
-
-	// end region unused props
 
 	int width;
 	int height;
@@ -127,6 +109,6 @@ public:
 	/// </summary>
 	void start(SwitchMode mode);
 
-	uint32_t* get_colored_frame(int index);
+	uint32_t* get_colored_frame(int index, Palette p);
 	
 };

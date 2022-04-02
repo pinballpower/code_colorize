@@ -29,7 +29,7 @@ void Animation::start(SwitchMode mode)
 {
 }
 
-uint32_t* Animation::get_colored_frame(int index)
+uint32_t* Animation::get_colored_frame(int index, Palette p)
 {
 	int len = width * height;
 	uint32_t *result = new uint32_t[len];
@@ -37,7 +37,8 @@ uint32_t* Animation::get_colored_frame(int index)
 	uint8_t *px_data = frames[index]->get_frame_data();
 
 	for (int i = 0; i < len; i++) {
-		result[i] = animation_colors[*(px_data+i)].get_color_data();
+		// TODO: colorisation
+		result[i] = 0;
 	}
 
 	return result;

@@ -17,7 +17,7 @@ public:
 	~VniColorisation();
 	virtual bool configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source);
 
-	virtual DMDFrame* process_frame(DMDFrame *f);
+	virtual DMDFrame* process_frame(DMDFrame* f);
 
 	// DMDSource methods
 	virtual DMDFrame* next_frame(bool blocking = true);
@@ -31,9 +31,9 @@ private:
 	VniAnimationSet* animations = NULL;
 
 	// for use as a DMDSource
-	int current_animation;
-	int current_frame;
-	int current_frame_in_animation;
+	int current_animation = 0;
+	int current_frame = 0;
+	int current_frame_in_animation = 0;
 
 	/// <summary>
 	/// Number of all frames in all animations

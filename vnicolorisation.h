@@ -5,7 +5,7 @@
 
 #include "../dmd/frameprocessor.h"
 #include "../dmd/dmdframe.h"
-#include "../dmd/dmdsource.h"
+#include "../dmdsource/dmdsource.h"
 #include "coloring.h"
 #include "vnianimationset.h"
 
@@ -33,6 +33,7 @@ private:
 	// for use as a DMDSource
 	int current_animation;
 	int current_frame;
+	int current_frame_in_animation;
 
 	/// <summary>
 	/// Number of all frames in all animations

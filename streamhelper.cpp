@@ -6,8 +6,8 @@ using namespace std;
 uint32_t read_u32_be(std::istream& f)
 {
     uint32_t val;
-    char bytes[4];
-    f.read(bytes, 4);
+    uint8_t bytes[4];
+    f.read((char*)bytes, 4);
 
     val = bytes[3] | (bytes[2] << 24) | (bytes[1] << 16) | (bytes[0] << 8);
 
@@ -17,8 +17,8 @@ uint32_t read_u32_be(std::istream& f)
 uint16_t read_u16_be(std::istream& f)
 {
     uint16_t val;
-    char bytes[2];
-    f.read(bytes, 2);
+    uint8_t bytes[2];
+    f.read((char*)bytes, 2);
 
     val = bytes[1] | (bytes[0] << 8);
 

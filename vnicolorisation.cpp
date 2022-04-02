@@ -51,8 +51,23 @@ DMDFrame* VniColorisation::process_frame(DMDFrame* f)
 
 DMDFrame* VniColorisation::next_frame(bool blocking)
 {
-	return nullptr;
-	// TODO
+	if (!(animations)) {
+		return NULL;
+	}
+
+	uint32_t* colored_data = animations->animations[current_animation]->get_colored_frame(current_frame);
+	if (current_frame_in_animation < animations->animations[current_animation]->frames.size() - 1) {
+		current_frame_in_animation++;
+	}
+	else {
+		current_frame_in_animation = 0;
+		current_animation++;
+	}
+	current_frame++;
+
+	DMDFrame* frame = new DMDFrame(animations->max_width, animations->max_height, 32, colored_data);
+
+	return frame;
 }
 
 bool VniColorisation::finished()
@@ -67,7 +82,7 @@ bool VniColorisation::frame_ready()
 
 void VniColorisation::get_properties(SourceProperties* p)
 {
-	p->bitsperpixel = 8;
+	p->bitsperpixel = 32;
 	if (animations) {
 		p->width = animations->max_width;
 		p->height = animations->max_height;

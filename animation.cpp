@@ -29,6 +29,20 @@ void Animation::start(SwitchMode mode)
 {
 }
 
+uint32_t* Animation::get_colored_frame(int index)
+{
+	int len = width * height;
+	uint32_t *result = new uint32_t[len];
+
+	uint8_t *px_data = frames[index]->get_frame_data();
+
+	for (int i = 0; i < len; i++) {
+		result[i] = animation_colors[*(px_data+i)].get_color_data();
+	}
+
+	return result;
+}
+
 Animation::Animation(long offset)
 {
 	this->offset = offset;
@@ -37,3 +51,4 @@ Animation::Animation(long offset)
 Animation::Animation()
 {
 }
+

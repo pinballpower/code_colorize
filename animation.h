@@ -119,8 +119,6 @@ public:
 
 	vector<uint8_t*> masks;
 
-	vector<uint8_t*> lcm_buffer_planes;
-
 	Animation();
 	Animation(long offset);
 	
@@ -128,5 +126,7 @@ public:
 	/// Starts the animation
 	/// </summary>
 	void start(SwitchMode mode);
+
+	uint32_t* get_colored_frame(int index);
 	
 };

@@ -29,13 +29,14 @@ public:
 
 	uint8_t* mask = NULL;
 
-	/// <summary>
-	/// Return the animation planes as raw data
-	/// </summary>
-	uint8_t* planedata{};
-
 	unsigned int hash = 0;
 
 	AnimationFrame();
 	AnimationFrame(unsigned int time);
+
+	/// <summary>
+	/// Get the frame in 8-bit per pixel data
+	/// </summary>
+	/// <returns></returns>
+	virtual uint8_t* get_frame_data();
 };

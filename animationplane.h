@@ -2,6 +2,9 @@
 
 #include <cstdint>
 
+/// <summary>
+/// An animation plane is a 1-bit plane 
+/// </summary>
 class AnimationPlane {
 
 public:

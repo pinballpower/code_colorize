@@ -109,6 +109,4 @@ public:
 	/// </summary>
 	void start(SwitchMode mode);
 
-	uint32_t* get_colored_frame(int index, Palette p);
-	
 };

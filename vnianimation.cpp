@@ -26,7 +26,7 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 		read_palettes_and_colors(is);
 	}
 	if (file_version >= 3) {
-		edit_mode = (AnimationEditMode)read_u8(is);
+		read_u8(is); // AnimationEditMode not used
 	}
 	if (file_version >= 4) {
 		width = read_int16_be(is);
@@ -61,10 +61,6 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 	animation_duration = 0;
 	for (int i = 0; i < num_frames; i++) {
 		VniAnimationFrame* frame = new VniAnimationFrame(is, file_version, animation_duration);
-
-		if (frame->mask != NULL && transition_from == 0) {
-			transition_from = i;
-		}
 		animation_duration += frame->delay;
 
 		frames.push_back(frame);
@@ -74,15 +70,13 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 void VniAnimation::read_palettes_and_colors(ifstream& is)
 
 {
-	palette_index = read_int16_be(is);
+	read_int16_be(is); // palette index unused
 	int num_colors = read_int16_be(is);
 	if (num_colors <= 0) {
 		return;
 	}
-	animation_colors = new DMDColor[num_colors];
-	for (int i = 0; i < num_colors; i++) {
-		animation_colors[i] = DMDColor(read_u8(is), read_u8(is), read_u8(is));
-	}
-	BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " found " << num_colors << " for palette " << palette_index;
+
+	BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " skipping " << num_colors*3 << " byte of embedded palette data ";
+	is.ignore(num_colors * 3); // embedded colors unused
 };
 

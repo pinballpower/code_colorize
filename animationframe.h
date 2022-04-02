@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "animationplane.h"
+#include "../dmd/dmdframe.h"
+
 
 using namespace std;
 
@@ -39,4 +41,6 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	virtual uint8_t* get_frame_data();
+
+	virtual DMDFrame* as_dmd_frame(int width, int height);
 };

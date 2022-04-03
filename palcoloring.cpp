@@ -5,8 +5,8 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "coloring.h"
-#include "mapping.h"
+#include "palcoloring.h"
+#include "palmapping.h"
 #include "streamhelper.h"
 
 using namespace std;
@@ -14,7 +14,7 @@ using namespace std;
 /// <summary>
 /// Default constructor, does nothing. Not to be used.
 /// </summary>
-Coloring::Coloring()
+PalColoring::PalColoring()
 {
 }
 
@@ -22,7 +22,7 @@ Coloring::Coloring()
 /// Initialize from a .pal color palette file
 /// </summary>
 /// <param name="filename">File to read</param>
-Coloring::Coloring(string filename)
+PalColoring::PalColoring(string filename)
 {
 	ifstream is;
 
@@ -44,17 +44,16 @@ Coloring::Coloring(string filename)
 	BOOST_LOG_TRIVIAL(trace) << "[coloring] offset " << is.tellg() << " read number of palettes as " << num_palettes;
 
 	for (int i = 0; i < num_palettes; i++) {
-		Palette *p = new Palette(is);
+		PalPalette *p = new PalPalette(is);
 		palettes.push_back(p);
-		if ((default_palette == NULL) && (p->is_default())) {
-			default_palette = p;
+		if ((default_palette_index == 0) && (p->is_default())) {
 			default_palette_index = (uint8_t)i;
 		}
 	}
 
-	if ((default_palette == NULL) && (palettes.size() > 0)) {
-		default_palette = palettes[0];
-		BOOST_LOG_TRIVIAL(trace) << "[coloring] no default palette defined, using first ";
+	if (default_palette_index < 0) {
+		BOOST_LOG_TRIVIAL(trace) << "[coloring] no default palette defined, using first one";
+		default_palette_index = 0;
 	}
 
 	int avail = file_len - is.tellg();
@@ -67,15 +66,15 @@ Coloring::Coloring(string filename)
 	BOOST_LOG_TRIVIAL(trace) << "[coloring] offset " << is.tellg() << " read number of mappings as " << num_mappings;
 
 	avail = file_len - is.tellg();
-	if (avail < Mapping::LENGTH * num_mappings) {
-		BOOST_LOG_TRIVIAL(warning) << "[coloring] needed " << Mapping::LENGTH * num_mappings << "bytes of mapping data, but only " << avail << " available, aborting.";
+	if (avail < PaletteMapping::LENGTH * num_mappings) {
+		BOOST_LOG_TRIVIAL(warning) << "[coloring] needed " << PaletteMapping::LENGTH * num_mappings << "bytes of mapping data, but only " << avail << " available, aborting.";
 		is.close();
 		return;
 	}
 
 	if (num_mappings > 0) {
 		for (int i = 0; i < num_mappings; i++) {
-			Mapping *mapping = new Mapping(is);
+			PaletteMapping *mapping = new PaletteMapping(is);
 			mappings[mapping->checksum]=mapping;
 		}
 	}
@@ -109,12 +108,12 @@ Coloring::Coloring(string filename)
 	is.close();
 }
 
-Palette* Coloring::get_palette(uint32_t index)
+Palette* PalColoring::get_palette(uint32_t index)
 {
 	return nullptr;
 }
 
-Mapping* Coloring::find_mapping(uint32_t checksum)
+PaletteMapping* PalColoring::find_mapping(uint32_t checksum)
 {
 	return NULL;
 }

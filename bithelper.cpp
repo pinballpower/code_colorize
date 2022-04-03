@@ -40,7 +40,19 @@ uint8_t reverse_byte(uint8_t x)
 };
 
 void reverse_byte_array(uint8_t* arr, int len) {
-	for (int i = 0; i < len; i++) {
-		arr[i] = reverse_byte(arr[i]);
+	uint8_t* p=arr;
+	for (int i = 0; i < len; i++, p++) {
+		*p = reverse_byte(*p);
 	}
 };
+
+uint32_t reverse_word_order(uint32_t x) {
+	return (x >> 24) | ((x >> 8) & 0xff00) | (x << 8 & 0xff0000) | (x << 24);
+}
+
+void reverse_word_order_array(uint32_t* arr, int len) {
+	uint32_t* p = arr;
+	for (int i = 0; i < len; i++, p++) {
+		*p = reverse_word_order(*p);
+	}
+}

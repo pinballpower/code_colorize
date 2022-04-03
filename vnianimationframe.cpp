@@ -79,6 +79,7 @@ void VniAnimationFrame::combine_planes(int plane_size)
 	frame_data = new uint8_t[plane_size * 8];
 
 	uint8_t* pp = frame_data;
+	int byteinword = 0;
 
 	// Loop through all bytes
 	for (int i = 0; i < plane_size; i++) {
@@ -88,7 +89,8 @@ void VniAnimationFrame::combine_planes(int plane_size)
 
 			uint8_t pixval = 0;
 			// combine all planes
-			for (int k = 0; k < planes.size(); k++) {
+			for (int k = planes.size()-1; k >= 0; k--) {
+			//for (int k = 0; k < 2; k++) {
 				uint8_t px_data = planes[k]->plane[i];
 
 				uint8_t pv = (px_data >> j) & 0x01; // extract n-th bit
@@ -101,5 +103,8 @@ void VniAnimationFrame::combine_planes(int plane_size)
 			pp++;
 		}
 	}
+
+	// TODO: Check ENDIAN of the system
+	reverse_word_order_array((uint32_t*)frame_data, plane_size * 2);
 }
 

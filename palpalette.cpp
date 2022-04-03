@@ -3,44 +3,44 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "palette.h"
+#include "palpalette.h"
 #include "streamhelper.h"
 #include "../dmd/color.h"
 
 using namespace std;
 
-Palette::Palette() {
+PalPalette::PalPalette() {
 	index=0;
 	type = 0;
-	colors=new DMDColor[0];
 }
 
-Palette::Palette (istream& is) {
+PalPalette::~PalPalette()
+{
+	colors.clear();
+}
+
+PalPalette::PalPalette (istream& is) {
 	index = read_u16_be(is);
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read index as " << index;
 	int num_colors = read_u16_be(is);
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read numcolors as " << num_colors;
 	type = read_u8(is);
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read type as " << ++type;
-	colors = new DMDColor[num_colors];
+	colors.reserve(num_colors);
 	for (int i = 0, j=0; i < num_colors; i++, j+=3) {
-		colors[i] = DMDColor(read_u8(is), read_u8(is), read_u8(is));
+		colors.push_back(DMDColor(read_u8(is), read_u8(is), read_u8(is)));
 	}
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read " << num_colors*3 << " bytes of color data ((" << num_colors << " colors)";
 }
 
-Palette::Palette(DMDColor colors[])
-{
-}
 
 
-
-bool Palette::is_default()
+bool PalPalette::is_default()
 {
 	return (type == 1 || type == 2);
 }
 
-bool Palette::is_persistent()
+bool PalPalette::is_persistent()
 {
 	return (type == 1);
 }

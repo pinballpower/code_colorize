@@ -5,8 +5,6 @@
 
 #include "switchmode.h"
 #include "animationframe.h"
-#include "palette.h"
-#include "../dmd/color.h"
 
 using namespace std;
 

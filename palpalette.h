@@ -3,23 +3,24 @@
 #include <cstdint>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include <boost/log/trivial.hpp>
 
 #include "../dmd/color.h"
+#include "../dmd/palette.h"
 
 using namespace std;
 
-class Palette {
+class PalPalette : public Palette  {
 
 public:
 	uint32_t index;
 	int type; //  0: normal, 1: default
-	DMDColor* colors;
 
-	Palette();
-	Palette(istream& is);
-	Palette(DMDColor colors[]);
+	PalPalette();
+	~PalPalette();
+	PalPalette(istream& is);
 
 	bool is_default();
 	bool is_persistent();

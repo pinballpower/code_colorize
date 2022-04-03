@@ -4,11 +4,10 @@
 #include <iostream>
 
 #include "switchmode.h"
-#include "palette.h"
 
 using namespace std;
 
-class Mapping {
+class PaletteMapping {
 
 public:
 	static const int LENGTH = 11;
@@ -28,5 +27,5 @@ public:
 	/// Is this an animation
 	bool IsAnimation();
 
-	Mapping(istream& is);
+	PaletteMapping(istream& is);
 };

@@ -6,7 +6,7 @@
 #include "../dmd/frameprocessor.h"
 #include "../dmd/dmdframe.h"
 #include "../dmdsource/dmdsource.h"
-#include "coloring.h"
+#include "palcoloring.h"
 #include "vnianimationset.h"
 
 class VniColorisation : DMDFrameProcessor, DMDSource {
@@ -27,7 +27,7 @@ public:
 
 private:
 
-	Coloring* coloring = NULL;
+	PalColoring* coloring = NULL;
 	VniAnimationSet* animations = NULL;
 
 	// for use as a DMDSource
@@ -39,4 +39,5 @@ private:
 	/// Number of all frames in all animations
 	/// </summary>
 	int frame_count;
+
 };

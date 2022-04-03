@@ -1,7 +1,7 @@
 #include <filesystem>
 
 #include "vnicolorisation.h"
-
+#include "../dmd/palette_colorizer.h"
 
 VniColorisation::VniColorisation()
 {
@@ -25,7 +25,7 @@ bool VniColorisation::configure_from_ptree(boost::property_tree::ptree pt_genera
 	};
 
 	delete coloring;
-	coloring = new Coloring(basename + ".pal");
+	coloring = new PalColoring(basename + ".pal");
 
 	if (!(std::filesystem::exists(basename + ".vni"))) {
 		BOOST_LOG_TRIVIAL(error) << "vnicoloring " << basename << ".vni does not exist";
@@ -45,8 +45,19 @@ bool VniColorisation::configure_from_ptree(boost::property_tree::ptree pt_genera
 
 DMDFrame* VniColorisation::process_frame(DMDFrame* f)
 {
-	// TODO
-	return f;
+	if (coloring == NULL) {
+		return f;
+	}
+
+	// TODO: find the correct coloring
+	// COLOR_VECTOR v = coloring->palettes[coloring->default_palette_index]->colors;
+	COLOR_VECTOR v = coloring->palettes[1]->colors;
+
+
+	DMDFrame* res = color_frame(f, v);
+	delete f;
+
+	return res;
 }
 
 DMDFrame* VniColorisation::next_frame(bool blocking)
@@ -55,8 +66,10 @@ DMDFrame* VniColorisation::next_frame(bool blocking)
 		return NULL;
 	}
 
-	uint32_t* colored_data = animations->animations[current_animation]->get_colored_frame(current_frame);
-	if (current_frame_in_animation < animations->animations[current_animation]->frames.size() - 1) {
+	Animation* anim = animations->animations[current_animation];
+
+	DMDFrame *frame = anim->frames[current_frame_in_animation]->as_dmd_frame(anim->width, anim->height);
+	if (current_frame_in_animation < anim->frames.size() - 1) {
 		current_frame_in_animation++;
 	}
 	else {
@@ -65,7 +78,6 @@ DMDFrame* VniColorisation::next_frame(bool blocking)
 	}
 	current_frame++;
 
-	DMDFrame* frame = new DMDFrame(animations->max_width, animations->max_height, 32, colored_data);
 
 	return frame;
 }

@@ -4,29 +4,14 @@
 #include "../dmd/dmdframe.h"
 
 
-uint8_t* AnimationFrame::get_frame_data()
+const vector<uint8_t> AnimationFrame::get_frame_data() const
 {
-	return nullptr;
+	return combined;
 }
 
 DMDFrame AnimationFrame::as_dmd_frame(int width, int height)
 {
 	return DMDFrame(width, height, 8, this->get_frame_data());
-}
-
-void AnimationFrame::start_pixel_loop()
-{
-	current_pixel = combined;
-}
-
-uint8_t AnimationFrame::get_next_pixel(bool mask)
-{
-	uint8_t res = *current_pixel;
-	if (!mask) {
-		res = res & 0x7f;  // mask is bit 7
-	}
-	current_pixel++;
-	return res;
 }
 
 void AnimationFrame::combine_planes(int len)
@@ -36,9 +21,7 @@ void AnimationFrame::combine_planes(int len)
 	int bit = 7;
 	int offset = 0;
 
-	delete[] combined;
-	combined = new uint8_t[len];
-	uint8_t* px = combined;
+	combined.clear();
 
 	uint8_t bits = planes.size();
 	uint8_t maxval = 0xff >> (8 - bits);
@@ -64,7 +47,6 @@ void AnimationFrame::combine_planes(int len)
 			bit = 7;
 		}
 
-		*px = pv;
-		px++;
+		combined.push_back(pv);
 	}
 }

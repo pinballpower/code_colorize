@@ -47,5 +47,4 @@ public:
 	vector<uint8_t*> masks;
 
 	Animation();
-	Animation(uint32_t offset);
 };

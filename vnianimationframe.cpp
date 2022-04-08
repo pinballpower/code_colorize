@@ -48,20 +48,15 @@ VniAnimationFrame::~VniAnimationFrame()
 	planes.clear();
 }
 
-uint8_t* VniAnimationFrame::get_frame_data()
-{
-	return combined;
-}
-
 void VniAnimationFrame::read_planes(ifstream& is, int plane_size)
 {
 	for (int i = 0; i < bit_length; i++) {
 		uint8_t marker = read_u8(is);
 		if (marker == 0x6d) {
 			BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " read mask";
-			mask = new uint8_t[plane_size];
-			is.read((char*)mask, plane_size);
-			reverse_byte_array(mask, plane_size);
+			mask = vector<uint8_t>(plane_size);
+			is.read((char*)&mask[0], plane_size);
+			reverse_byte_vector(mask);
 			bool is_full = true;
 			for (int i = 0; i < plane_size; i++) {
 				if (mask[i] != 0xff) is_full = false;

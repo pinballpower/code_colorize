@@ -13,6 +13,5 @@ public:
 	VniAnimationSet(string filename);
 
 	int max_height=0;
-	int max_width=0;
-
+	int max_width = 0;
 };

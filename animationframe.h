@@ -23,28 +23,17 @@ public:
 
 	vector<AnimationPlane*> planes;
 
-	uint8_t* mask = NULL;
-
-	/// <summary>
-	/// Combined planes and mask. Planes are bits 0-6 (even if there are less planes), mask is bit 7
-	/// </summary>
-	uint8_t* combined = NULL;
-
-	unsigned int hash = 0;
-
 	/// <summary>
 	/// Get the frame in 8-bit per pixel data
 	/// </summary>
 	/// <returns></returns>
-	virtual uint8_t* get_frame_data();
+	const vector<uint8_t> get_frame_data() const;
 
 	virtual DMDFrame as_dmd_frame(int width, int height);
 
-	// loop through frame
-	void start_pixel_loop();
-	uint8_t get_next_pixel(bool mask=true);
-
 protected:
+
+	unsigned int hash = 0;
 
 	/// <summary>
 	/// Combine planes and mask and store it in combined
@@ -52,6 +41,13 @@ protected:
 	/// <param name="len">Number of pixels</param>
 	void combine_planes(int len);
 
-	uint8_t *current_pixel;
+	vector<uint8_t> mask;
+
+	/// <summary>
+	/// Combined planes and mask. Planes are bits 0-6 (even if there are less planes), mask is bit 7
+	/// </summary>
+	vector<uint8_t> combined;
+
+
 
 };

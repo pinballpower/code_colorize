@@ -231,8 +231,8 @@ void Pin2DMDColorisation::color_animation_frame(DMDFrame &src_frame, AnimationFr
 	uint8_t src_mask = 0xff >> (8 - src_frame.get_bitsperpixel());
 	uint8_t color_mask = ~src_mask & 0x7f;
 
-
-	anim_frame.start_pixel_loop();
+	auto anim_frame_data = anim_frame.get_frame_data();
+	auto animIter = anim_frame_data.cbegin();
 
 	// loop through pixels
 	for (auto src_px: src_frame.get_data()) {
@@ -240,7 +240,8 @@ void Pin2DMDColorisation::color_animation_frame(DMDFrame &src_frame, AnimationFr
 		DMDColor c;
 
 		if (col_mode == ModeColorMask) {
-			uint8_t ani_px = anim_frame.get_next_pixel(true);
+			uint8_t ani_px = *animIter;
+			animIter++;
 			if (ani_px & 0x80) {
 				uint8_t pv2 = src_px | (ani_px & color_mask);
 				c = col_palette[pv2];
@@ -250,7 +251,8 @@ void Pin2DMDColorisation::color_animation_frame(DMDFrame &src_frame, AnimationFr
 			}
 		}
 		else if ((col_mode == ModeReplace) || (col_mode == ModeFollowReplace)) {
-			uint8_t ani_px = anim_frame.get_next_pixel(true);
+			uint8_t ani_px = *animIter;
+			animIter++;
 			if (ani_px & 0x80) {
 				uint8_t pv2 = ani_px & 0x7f;
 				c = col_palette[pv2];
@@ -261,7 +263,8 @@ void Pin2DMDColorisation::color_animation_frame(DMDFrame &src_frame, AnimationFr
 		}
 		else if (col_mode == ModeLayeredColorMask || (col_mode == ModeMaskedReplace) ) {
 			// Not sure if this is correct
-			uint8_t ani_px = anim_frame.get_next_pixel(true);
+			uint8_t ani_px = *animIter;
+			animIter++;
 			if (ani_px & 0x80) {
 				uint8_t pv2 = src_px | (ani_px & color_mask);
 				c = col_palette[pv2];

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+
+using namespace std;
 
 /// <summary>
 /// An animation plane is a 1-bit plane 
@@ -8,10 +11,13 @@
 class AnimationPlane {
 
 public:
+	const vector<uint8_t>& get_data();
+
+protected:
 	/// <summary>
 	/// Type of plane
 	/// </summary>
 	uint8_t marker = 0;
 
-	uint8_t *plane = NULL;
+	vector<uint8_t> data;
 };

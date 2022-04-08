@@ -6,7 +6,6 @@
 #include "animationplane.h"
 #include "../dmd/dmdframe.h"
 
-
 using namespace std;
 
 class AnimationFrame {

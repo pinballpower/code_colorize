@@ -73,7 +73,7 @@ bool Pin2DMDColorisation::configure_from_ptree(boost::property_tree::ptree pt_ge
 	}
 
 	// Set default palette
-	col_palette = coloring.palettes[coloring.default_palette_index]->colors;
+	col_palette = coloring.get_default_palette().get_colors();
 
 	return true;
 }
@@ -92,7 +92,8 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 	int len = w * h;
 	int plane_len = len / 8;
 
-	PaletteMapping* map = NULL;
+	std::optional<PaletteMapping> map = std::nullopt;
+	bool found_mapping = true;
 	uint8_t* color_data = new uint8_t[(int)len * 3];
 
 	// find colormapping
@@ -129,7 +130,7 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 		if (map) {
 			uint16_t index = map->palette_index;
 
-			col_palette = coloring.palettes[index]->colors;
+			col_palette = coloring.get_palette(index).get_colors();
 			col_mode = map->mode;
 
 			// Should the palette be used only for  specific number of frames?

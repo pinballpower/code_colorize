@@ -47,6 +47,6 @@ protected:
 	/// </summary>
 	vector<AnimationFrame> frames;
 
-	vector<uint8_t*> masks;
+	vector<vector<uint8_t>> masks;
 
 };

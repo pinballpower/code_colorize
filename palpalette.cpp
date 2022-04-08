@@ -39,12 +39,17 @@ PalPalette::PalPalette (istream& is) {
 
 
 
-bool PalPalette::is_default()
+bool PalPalette::is_default() const
 {
 	return (type == 1 || type == 2);
 }
 
-bool PalPalette::is_persistent()
+bool PalPalette::is_persistent() const
 {
 	return (type == 1);
+}
+
+const vector<DMDColor> Palette::get_colors() const
+{
+	return colors;
 }

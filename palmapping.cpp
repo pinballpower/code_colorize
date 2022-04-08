@@ -4,9 +4,13 @@
 #include "switchmode.h"
 #include "streamhelper.h"
 
-bool PaletteMapping::IsAnimation()
+bool PaletteMapping::IsAnimation() const
 {
 	return ((mode != ModeEvent) && (mode != ModePalette));
+}
+
+PaletteMapping::PaletteMapping()
+{
 }
 
 PaletteMapping::PaletteMapping(istream& is)

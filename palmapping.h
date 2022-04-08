@@ -25,7 +25,8 @@ public:
 	uint32_t offset;
 
 	/// Is this an animation
-	bool IsAnimation();
+	bool IsAnimation() const;
 
+	PaletteMapping();
 	PaletteMapping(istream& is);
 };

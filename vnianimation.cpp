@@ -44,10 +44,10 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 		{
 			int locked = read_u8(is);
 			int size = read_int16_be(is);
-			uint8_t* m = new uint8_t[size];
-			is.read((char*)m, size);
-			reverse_byte_array(m, size);
-			masks.push_back(m);
+			vector<uint8_t> mask = vector<uint8_t>(size);
+			is.read((char*)&mask[0], size);
+			reverse_byte_vector(mask);
+			masks.push_back(mask);
 		}
 	}
 
@@ -62,10 +62,8 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 
 	BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " reading " << num_frames << " frame(s) for animation " << name;
 
-	//animation_duration = 0;
 	for (int i = 0; i < num_frames; i++) {
 		VniAnimationFrame frame = VniAnimationFrame(is, file_version);
-		// animation_duration += frame.delay;
 
 		frames.push_back(frame);
 	}

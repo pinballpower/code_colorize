@@ -14,6 +14,9 @@ using namespace std;
 class Palette {
 
 public:
+	const vector<DMDColor> get_colors() const;
+
+protected:
 	vector<DMDColor> colors;
 };
 
@@ -27,7 +30,7 @@ public:
 	~PalPalette();
 	PalPalette(istream& is);
 
-	bool is_default();
-	bool is_persistent();
+	bool is_default() const;
+	bool is_persistent() const;
 
 };

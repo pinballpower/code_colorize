@@ -16,6 +16,7 @@ using namespace std;
 /// </summary>
 PalColoring::PalColoring()
 {
+	version = 0;
 }
 
 /// <summary>
@@ -43,9 +44,9 @@ PalColoring::PalColoring(string filename)
 	BOOST_LOG_TRIVIAL(trace) << "[coloring] offset " << is.tellg() << " read number of palettes as " << num_palettes;
 
 	for (int i = 0; i < num_palettes; i++) {
-		PalPalette *p = new PalPalette(is);
-		palettes[p->index] = p;
-		if ((default_palette_index == 0) && (p->is_default())) {
+		PalPalette p = PalPalette(is);
+		palettes[p.index] = p;
+		if ((default_palette_index == 0) && (p.is_default())) {
 			default_palette_index = (uint8_t)i;
 		}
 	}
@@ -73,8 +74,8 @@ PalColoring::PalColoring(string filename)
 
 	if (num_mappings > 0) {
 		for (int i = 0; i < num_mappings; i++) {
-			PaletteMapping *mapping = new PaletteMapping(is);
-			mappings[mapping->checksum]=mapping;
+			PaletteMapping mapping = PaletteMapping(is);
+			mappings[mapping.checksum]=mapping;
 		}
 	}
 	else if (avail > 0) {
@@ -111,12 +112,21 @@ PalColoring::PalColoring(string filename)
 	is.close();
 }
 
-Palette* PalColoring::get_palette(uint32_t index)
+const Palette PalColoring::get_palette(uint32_t index) const
 {
-	return nullptr;
+	return palettes.at(index);
 }
 
-PaletteMapping* PalColoring::find_mapping(uint32_t checksum)
+const Palette PalColoring::get_default_palette() const
 {
-	return mappings[checksum];
+	return palettes.at(default_palette_index);
+}
+
+const std::optional<PaletteMapping> PalColoring::find_mapping(uint32_t checksum) const
+{
+	try {
+		return mappings.at(checksum);
+	} catch(out_of_range e) {
+		return std::nullopt;
+	}
 }

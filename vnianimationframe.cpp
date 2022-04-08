@@ -8,7 +8,7 @@
 #include "vnianimationplane.h"
 
 
-VniAnimationFrame::VniAnimationFrame(ifstream& is, int file_version, unsigned int time)
+VniAnimationFrame::VniAnimationFrame(ifstream& is, int file_version)
 {
 	int plane_size = read_int16_be(is);
 	BOOST_LOG_TRIVIAL(trace) << "[vinanimationframe] offset " << is.tellg() << " plane_size is " << plane_size;
@@ -38,16 +38,6 @@ VniAnimationFrame::VniAnimationFrame(ifstream& is, int file_version, unsigned in
 	}
 }
 
-VniAnimationFrame::~VniAnimationFrame()
-{
-	// Delete all planes
-	for (auto p : planes)
-	{
-		delete p;
-	}
-	planes.clear();
-}
-
 void VniAnimationFrame::read_planes(ifstream& is, int plane_size)
 {
 	for (int i = 0; i < bit_length; i++) {
@@ -67,8 +57,8 @@ void VniAnimationFrame::read_planes(ifstream& is, int plane_size)
 		}
 		else {
 			BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " read plane ";
-			VniAnimationPlane *plane = new VniAnimationPlane(is, plane_size, marker);
-			planes.push_back((AnimationPlane*)plane);
+			VniAnimationPlane plane = VniAnimationPlane(is, plane_size, marker);
+			planes.push_back(std::move(plane));
 		}
 	}
 

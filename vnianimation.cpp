@@ -62,10 +62,10 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 
 	BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " reading " << num_frames << " frame(s) for animation " << name;
 
-	animation_duration = 0;
+	//animation_duration = 0;
 	for (int i = 0; i < num_frames; i++) {
-		VniAnimationFrame frame = VniAnimationFrame(is, file_version, animation_duration);
-		animation_duration += frame.delay;
+		VniAnimationFrame frame = VniAnimationFrame(is, file_version);
+		// animation_duration += frame.delay;
 
 		frames.push_back(frame);
 	}

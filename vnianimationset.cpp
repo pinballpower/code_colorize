@@ -52,13 +52,13 @@ VniAnimationSet::VniAnimationSet(string filename) {
 	max_height = 0;
 
 	for (int i = 0; i < num_animations; i++) {
-		VniAnimation *a = new VniAnimation(is, version);
+		VniAnimation a = VniAnimation(is, version);
 		BOOST_LOG_TRIVIAL(trace) << "[vnianimationset] read animation " << i;
-		if (a->height > max_height)
-			max_height = a->height;
-		if (a->width > max_width)
-			max_width = a->width;
-		animations[a->offset] = a;
+		if (a.height > max_height)
+			max_height = a.height;
+		if (a.width > max_width)
+			max_width = a.width;
+		animations[a.offset] = a;
 	}
 	BOOST_LOG_TRIVIAL(trace) << "[vnianimationset] successfully loaded animations, max dimension is " << max_width << "x" << max_height;
 

@@ -9,7 +9,7 @@ class AnimationSet
 {
 public:
 	int version;
-	map<uint32_t, Animation*> animations;
+	map<uint32_t, Animation> animations;
 
-	Animation* find(int offset);
+	const Animation find(int offset);
 };

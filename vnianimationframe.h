@@ -7,8 +7,7 @@
 class VniAnimationFrame : public AnimationFrame {
 
 public:
-	VniAnimationFrame(ifstream& is, int file_version, unsigned int time);
-	~VniAnimationFrame();
+	VniAnimationFrame(ifstream& is, int file_version);
 
 private:
 	void read_planes(ifstream& is, int planeSize);

@@ -1,6 +1,6 @@
 #include "animationset.h"
 
-Animation* AnimationSet::find(int offset)
+const Animation AnimationSet::find(int offset)
 {
 	return animations[offset];
 }

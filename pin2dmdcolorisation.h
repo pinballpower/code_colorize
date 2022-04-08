@@ -28,7 +28,7 @@ private:
 	PalColoring coloring;
 	VniAnimationSet animations;
 
-	void color_animation_frame(DMDFrame &src_frame, AnimationFrame &anim_frame, int len, uint8_t *dst);
+	void color_animation_frame(const DMDFrame &src_frame, const AnimationFrame &anim_frame, int len, uint8_t *dst);
 
 	// for use as a DMDSource
 	int src_current_animation = 0;
@@ -45,7 +45,8 @@ private:
 	//
 	vector<DMDColor> col_palette;
 	int col_frames_left = -1;
-	Animation* col_animation = NULL;
+	Animation col_animation;
+	bool animation_active = false;
 	int col_anim_frame = 0;
 	SwitchMode col_mode = ModePalette;
 

@@ -9,7 +9,7 @@ const vector<uint8_t> AnimationFrame::get_frame_data() const
 	return combined;
 }
 
-DMDFrame AnimationFrame::as_dmd_frame(int width, int height)
+DMDFrame AnimationFrame::as_dmd_frame(int width, int height) const
 {
 	return DMDFrame(width, height, 8, this->get_frame_data());
 }
@@ -30,9 +30,9 @@ void AnimationFrame::combine_planes(int len)
 
 		uint8_t pv = 0;
 		uint8_t planebit = 0;
-		for (AnimationPlane* p: planes) {
+		for (auto &p: planes) {
 			// get n'th bit and set it
-			pv |= ((p->get_data()[offset] >> bit) & 0x01) << planebit;
+			pv |= ((p.get_data()[offset] >> bit) & 0x01) << planebit;
 			planebit++;
 		}
 

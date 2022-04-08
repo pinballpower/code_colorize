@@ -11,7 +11,7 @@ using namespace std;
 class AnimationPlane {
 
 public:
-	const vector<uint8_t>& get_data();
+	const vector<uint8_t>& get_data() const;
 
 protected:
 	/// <summary>

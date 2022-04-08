@@ -9,7 +9,7 @@ uint32_t read_u32_be(std::istream& f)
     uint8_t bytes[4];
     f.read((char*)bytes, 4);
 
-    val = bytes[3] | (bytes[2] << 24) | (bytes[1] << 16) | (bytes[0] << 8);
+    val = bytes[3] | (bytes[2] << 8) | (bytes[1] << 16) | (bytes[0] << 24);
 
     return val;
 };

@@ -35,7 +35,6 @@ PalColoring::PalColoring(string filename)
 	BOOST_LOG_TRIVIAL(trace) << "[coloring] file " << filename << " length " << file_len << " bytes";
 	is.open(filename, ios::binary);
 
-	masks = NULL;
 	this->filename = filename;
 	version = read_u8(is);
 	BOOST_LOG_TRIVIAL(trace) << "[coloring] offset " << is.tellg() << " read version as " << version;
@@ -45,7 +44,7 @@ PalColoring::PalColoring(string filename)
 
 	for (int i = 0; i < num_palettes; i++) {
 		PalPalette *p = new PalPalette(is);
-		palettes.push_back(p);
+		palettes[p->index] = p;
 		if ((default_palette_index == 0) && (p->is_default())) {
 			default_palette_index = (uint8_t)i;
 		}
@@ -57,7 +56,7 @@ PalColoring::PalColoring(string filename)
 	}
 
 	int avail = file_len - is.tellg();
-	if (avail) {
+	if (avail<=0) {
 		is.close();
 		return;
 	}
@@ -95,9 +94,13 @@ PalColoring::PalColoring(string filename)
 			return;
 		}
 
-		masks = new uint8_t[num_masks*mask_bytes];
-		is.read((char*)masks, num_masks * mask_bytes);
-		BOOST_LOG_TRIVIAL(trace) << "[coloring] read " << num_masks << " masks with " << mask_bytes << " bytes per mask";
+		for (int i = 0; i < num_masks; i++) {
+			uint8_t* mask = new uint8_t[mask_bytes];
+			is.read((char*)mask, mask_bytes);
+			masks.push_back(mask);
+		}
+
+		BOOST_LOG_TRIVIAL(trace) << "[coloring] read " << masks.size() << " masks with " << mask_bytes << " bytes per mask";
 	}
 
 	avail = file_len - is.tellg();
@@ -115,5 +118,5 @@ Palette* PalColoring::get_palette(uint32_t index)
 
 PaletteMapping* PalColoring::find_mapping(uint32_t checksum)
 {
-	return NULL;
+	return mappings[checksum];
 }

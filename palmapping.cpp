@@ -12,7 +12,7 @@ bool PaletteMapping::IsAnimation()
 PaletteMapping::PaletteMapping(istream& is)
 {
 	checksum = read_u32_be(is);
-	BOOST_LOG_TRIVIAL(trace) << "[palettemapping] offset " << is.tellg() << " read checksum as " << checksum;
+	BOOST_LOG_TRIVIAL(trace) << "[palettemapping] offset " << is.tellg() << " read checksum as " << std::hex << checksum;
 	mode = (SwitchMode)read_u8(is);
 	BOOST_LOG_TRIVIAL(trace) << "[palettemapping] offset " << is.tellg() << " read mode as " << mode;
 	palette_index = read_u16_be(is);

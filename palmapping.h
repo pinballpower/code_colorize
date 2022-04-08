@@ -15,7 +15,7 @@ public:
 
 	SwitchMode mode;
 
-	uint8_t palette_index;
+	uint16_t palette_index;
 
 	/// how long is this palette active before it will be switched back to the 
 	/// default palette (0: never switch back)

@@ -28,7 +28,11 @@ PalPalette::PalPalette (istream& is) {
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read type as " << ++type;
 	colors.reserve(num_colors);
 	for (int i = 0, j=0; i < num_colors; i++, j+=3) {
-		colors.push_back(DMDColor(read_u8(is), read_u8(is), read_u8(is)));
+		uint8_t r, g, b;
+		r = read_u8(is);
+		g = read_u8(is);
+		b = read_u8(is);
+		colors.push_back(DMDColor(r,g,b));
 	}
 	BOOST_LOG_TRIVIAL(trace) << "[palette] offset " << is.tellg() << " read " << num_colors*3 << " bytes of color data ((" << num_colors << " colors)";
 }

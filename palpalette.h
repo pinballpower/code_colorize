@@ -8,14 +8,19 @@
 #include <boost/log/trivial.hpp>
 
 #include "../dmd/color.h"
-#include "../dmd/palette.h"
 
 using namespace std;
+
+class Palette {
+
+public:
+	vector<DMDColor> colors;
+};
 
 class PalPalette : public Palette  {
 
 public:
-	uint32_t index;
+	uint16_t index;
 	int type; //  0: normal, 1: default
 
 	PalPalette();

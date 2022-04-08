@@ -1,11 +1,6 @@
 #include "animationset.h"
 
-AnimationSet::~AnimationSet()
+Animation* AnimationSet::find(int offset)
 {
-	animations.clear();
-}
-
-Animation AnimationSet::find(int offset)
-{
-	return Animation();
+	return animations[offset];
 }

@@ -13,9 +13,9 @@ class PalColoring {
 public:
 	string filename;
 	int version; // 1 = FSQ, 2 = VNI 
-	vector<PalPalette*> palettes;
+	map<uint16_t, PalPalette*> palettes;
 	map<uint32_t, PaletteMapping*> mappings;
-	uint8_t* masks = NULL;
+	vector<uint8_t*> masks;
 	int default_palette_index = -1;
 	int num_palettes = 0;
 

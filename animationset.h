@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
+#include <map>
 
 #include "animation.h"
 
@@ -9,9 +9,7 @@ class AnimationSet
 {
 public:
 	int version;
-	vector <Animation*> animations;
+	map<uint32_t, Animation*> animations;
 
-	~AnimationSet();
-
-	Animation find(int offset);
+	Animation* find(int offset);
 };

@@ -3,10 +3,13 @@
 #include "vnianimation.h"
 #include "vnianimationframe.h"
 #include "streamhelper.h"
-#include "bithelper.h"
+#include "../util/bithelper.h"
 #include "../dmd/color.h"
 
 VniAnimation::VniAnimation(ifstream& is, int file_version) {
+
+	// offset
+	offset = is.tellg();
 
 	// animations name
 	int name_length = read_int16_be(is);
@@ -44,6 +47,7 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 			uint8_t* m = new uint8_t[size];
 			is.read((char*)m, size);
 			reverse_byte_array(m, size);
+			masks.push_back(m);
 		}
 	}
 
@@ -60,8 +64,8 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 
 	animation_duration = 0;
 	for (int i = 0; i < num_frames; i++) {
-		VniAnimationFrame* frame = new VniAnimationFrame(is, file_version, animation_duration);
-		animation_duration += frame->delay;
+		VniAnimationFrame frame = VniAnimationFrame(is, file_version, animation_duration);
+		animation_duration += frame.delay;
 
 		frames.push_back(frame);
 	}

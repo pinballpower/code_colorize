@@ -9,6 +9,11 @@ const vector<uint8_t> AnimationFrame::get_frame_data() const
 	return combined;
 }
 
+const vector<AnimationPlane> AnimationFrame::get_planes() const
+{
+	return planes;
+}
+
 DMDFrame AnimationFrame::as_dmd_frame(int width, int height) const
 {
 	return DMDFrame(width, height, 8, this->get_frame_data());

@@ -16,7 +16,6 @@ using namespace std;
 /// </summary>
 PalColoring::PalColoring()
 {
-	version = 0;
 }
 
 /// <summary>
@@ -96,8 +95,8 @@ PalColoring::PalColoring(string filename)
 		}
 
 		for (int i = 0; i < num_masks; i++) {
-			uint8_t* mask = new uint8_t[mask_bytes];
-			is.read((char*)mask, mask_bytes);
+			vector <uint8_t> mask = vector <uint8_t>(mask_bytes);
+			is.read((char*)&mask[0], mask_bytes);
 			masks.push_back(mask);
 		}
 

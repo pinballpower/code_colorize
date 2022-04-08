@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <cstring>
 #include <map>
 #include <vector>
@@ -12,8 +13,8 @@ using namespace std;
 class PalColoring {
 public:
 	string filename;
-	int version; // 1 = FSQ, 2 = VNI 
-	vector<uint8_t*> masks;
+	int version = 1; // 1 = FSQ, 2 = VNI 
+	vector<vector <uint8_t>> masks;
 	int default_palette_index = -1;
 	int num_palettes = 0;
 

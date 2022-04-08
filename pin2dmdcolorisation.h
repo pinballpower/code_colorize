@@ -18,7 +18,7 @@ public:
 	virtual DMDFrame process_frame(DMDFrame &f);
 
 	// DMDSource methods
-	DMDFrame next_frame(bool blocking = true);
+	// DMDFrame next_frame(bool blocking = true);
 	virtual bool finished();
 	virtual bool frame_ready();
 	virtual SourceProperties get_properties();
@@ -28,7 +28,7 @@ private:
 	PalColoring coloring;
 	VniAnimationSet animations;
 
-	void color_animation_frame(const DMDFrame &src_frame, const AnimationFrame &anim_frame, int len, uint8_t *dst);
+	vector <uint8_t> color_animation_frame(const DMDFrame &src_frame, const AnimationFrame &anim_frame, int len);
 
 	// for use as a DMDSource
 	int src_current_animation = 0;

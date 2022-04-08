@@ -68,7 +68,7 @@ bool Pin2DMDColorisation::configure_from_ptree(boost::property_tree::ptree pt_ge
 
 	// count animations and frames
 	src_frame_count = src_current_animation = src_current_frame = 0;
-	for (auto &a : animations.animations) {
+	for (auto &a : animations.get_animations()) {
 		src_frame_count += a.second.size();
 	}
 
@@ -94,7 +94,6 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 
 	std::optional<PaletteMapping> map = std::nullopt;
 	bool found_mapping = true;
-	uint8_t* color_data = new uint8_t[(int)len * 3];
 
 	// find colormapping
 	for (int i = 0; i < f.get_bitsperpixel(); i++) {
@@ -109,14 +108,8 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 		}
 		else {
 			// try to find an colormapping that matches
-			for (uint8_t* mask : coloring.masks) {
-				// TODO: This is a hack, change mask from uint8_t* to vector<uint8_t> later
-				vector <uint8_t> maskVect = vector<uint8_t>();
-				for (int i = 0; i < plane_len; i++) {
-					maskVect.push_back(mask[i]);
-				}
-
-				chk = crc32vect(pd, maskVect, true);
+			for (auto mask : coloring.masks) {
+				chk = crc32vect(pd, mask, true);
 				BOOST_LOG_TRIVIAL(trace) << "[pin2dmdcolorisation] plane masked crc32(full frame) " << chk;
 				map = coloring.find_mapping(chk);
 
@@ -155,17 +148,16 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 			}
 		}
 
-		// delete[] pd;
-
 		if (map) {
 			break;
 		}
 	}
 
 	// Play animation
+	vector<uint8_t> color_data;
 	if (animation_active) {
 
-		color_animation_frame(f, col_animation.get_frame(col_anim_frame), len, color_data);
+		color_data=color_animation_frame(f, col_animation.get_frame(col_anim_frame), len);
 
 		col_frames_left--;
 		col_anim_frame++;
@@ -176,30 +168,30 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 	}
 	else {
 		AnimationFrame af;
-		color_animation_frame(f, af, len, color_data);
+		color_data=color_animation_frame(f, af, len);
 	}
 
 	DMDFrame res = DMDFrame(w, h, 24, color_data);
 
 	return res;
 }
-
-DMDFrame Pin2DMDColorisation::next_frame(bool blocking)
-{
-	Animation anim = animations.animations[src_current_animation];
-
-	DMDFrame frame = anim.get_frame(src_current_frame_in_animation).as_dmd_frame(anim.width, anim.height);
-	if (src_current_frame_in_animation < anim.size() - 1) {
-		src_current_frame_in_animation++;
-	}
-	else {
-		src_current_frame_in_animation = 0;
-		src_current_animation++;
-	}
-	src_current_frame++;
-
-	return frame;
-}
+//
+//DMDFrame Pin2DMDColorisation::next_frame(bool blocking)
+//{
+//	Animation anim = animations.get_animations()[src_current_animation];
+//
+//	DMDFrame frame = anim.get_frame(src_current_frame_in_animation).as_dmd_frame(anim.width, anim.height);
+//	if (src_current_frame_in_animation < anim.size() - 1) {
+//		src_current_frame_in_animation++;
+//	}
+//	else {
+//		src_current_frame_in_animation = 0;
+//		src_current_animation++;
+//	}
+//	src_current_frame++;
+//
+//	return frame;
+//}
 
 bool Pin2DMDColorisation::finished()
 {
@@ -216,12 +208,13 @@ SourceProperties Pin2DMDColorisation::get_properties()
 	return SourceProperties(animations.max_width, animations.max_height, 8);
 }
 
-void Pin2DMDColorisation::color_animation_frame(const DMDFrame &src_frame, const AnimationFrame &anim_frame, int len, uint8_t* dst)
+vector <uint8_t> Pin2DMDColorisation::color_animation_frame(const DMDFrame &src_frame, const AnimationFrame &anim_frame, int len)
 {
 	if (col_mode == ModeEvent) {
 		BOOST_LOG_TRIVIAL(error) << "[pin2dmdcolorisation] mode EVENT not supported, ignoring";
-		return;
 	}
+
+	vector <uint8_t> res;
 
 	bool is_animation = (col_mode != ModeEvent) && (col_mode != ModePalette);
 
@@ -277,11 +270,10 @@ void Pin2DMDColorisation::color_animation_frame(const DMDFrame &src_frame, const
 			assert(false);
 		}
 
-		*dst = c.c.cols.r;
-		dst++;
-		*dst = c.c.cols.g;
-		dst++;
-		*dst = c.c.cols.b;
-		dst++;
+		res.push_back(c.c.cols.r);
+		res.push_back(c.c.cols.g);
+		res.push_back(c.c.cols.b);
 	}
+
+	return res;
 }

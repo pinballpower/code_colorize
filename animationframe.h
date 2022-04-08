@@ -21,13 +21,13 @@ public:
 	/// </summary>
 	int bit_length = 0;
 
-	vector<AnimationPlane> planes;
-
 	/// <summary>
 	/// Get the frame in 8-bit per pixel data
 	/// </summary>
 	/// <returns></returns>
 	const vector<uint8_t> get_frame_data() const;
+
+	const vector<AnimationPlane> get_planes() const;
 
 	virtual DMDFrame as_dmd_frame(int width, int height) const;
 
@@ -47,6 +47,12 @@ protected:
 	/// Combined planes and mask. Planes are bits 0-6 (even if there are less planes), mask is bit 7
 	/// </summary>
 	vector<uint8_t> combined;
+
+	/// <summary>
+	/// The planes, each plane is 1 bit
+	/// </summary>
+	vector<AnimationPlane> planes;
+
 
 
 

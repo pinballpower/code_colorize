@@ -13,11 +13,6 @@ class AnimationFrame {
 
 public:
 	/// <summary>
-	/// When the frame within its frame sequence is played
-	/// </summary>
-	unsigned int time = 0;
-
-	/// <summary>
 	/// Duration of the frame
 	/// </summary>
 	unsigned int delay = 0;
@@ -37,9 +32,6 @@ public:
 	uint8_t* combined = NULL;
 
 	unsigned int hash = 0;
-
-	AnimationFrame();
-	AnimationFrame(unsigned int time);
 
 	/// <summary>
 	/// Get the frame in 8-bit per pixel data

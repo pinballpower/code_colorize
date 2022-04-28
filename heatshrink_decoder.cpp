@@ -93,7 +93,7 @@ void heatshrink_decoder_reset(heatshrink_decoder* hsd) {
 
 /* Copy SIZE bytes into the decoder's input buffer, if it will fit. */
 HSD_sink_res heatshrink_decoder_sink(heatshrink_decoder* hsd,
-    uint8_t* in_buf, size_t size, size_t* input_size) {
+    uint8_t* in_buf, size_t getSize, size_t* input_size) {
     if ((hsd == NULL) || (in_buf == NULL) || (input_size == NULL)) {
         return HSDR_SINK_ERROR_NULL;
     }
@@ -104,12 +104,12 @@ HSD_sink_res heatshrink_decoder_sink(heatshrink_decoder* hsd,
         return HSDR_SINK_FULL;
     }
 
-    size = rem < size ? rem : size;
-    LOG("-- sinking %zd bytes\n", size);
+    getSize = rem < getSize ? rem : getSize;
+    LOG("-- sinking %zd bytes\n", getSize);
     /* copy into input buffer (at head of buffers) */
-    memcpy(&hsd->buffers[hsd->input_size], in_buf, size);
-    hsd->input_size += size;
-    *input_size = size;
+    memcpy(&hsd->buffers[hsd->input_size], in_buf, getSize);
+    hsd->input_size += getSize;
+    *input_size = getSize;
     return HSDR_SINK_OK;
 }
 

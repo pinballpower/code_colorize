@@ -3,25 +3,25 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/log/trivial.hpp>
 
-#include "../dmd/frameprocessor.h"
+#include "../processor/frameprocessor.h"
 #include "../dmd/dmdframe.h"
 #include "../dmdsource/dmdsource.h"
 #include "palcoloring.h"
 #include "vnianimationset.h"
 
-class Pin2DMDColorisation : DMDFrameProcessor, DMDSource {
+class Pin2DMDColorisation : public DMDFrameProcessor, public DMDSource {
 
 public:
 
-	virtual bool configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source);
+	virtual bool configureFromPtree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source);
 
 	virtual DMDFrame process_frame(DMDFrame &f);
 
 	// DMDSource methods
 	// DMDFrame next_frame(bool blocking = true);
-	virtual bool finished();
-	virtual bool frame_ready();
-	virtual SourceProperties get_properties();
+	virtual bool isFinished();
+	virtual bool isFrameReady();
+	virtual SourceProperties getProperties();
 
 private:
 

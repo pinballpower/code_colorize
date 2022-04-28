@@ -1,6 +1,6 @@
 #include "animationplane.h"
 
-const vector<uint8_t>& AnimationPlane::get_data() const
+const vector<uint8_t>& AnimationPlane::getPixelData() const
 {
 	return data;
 }

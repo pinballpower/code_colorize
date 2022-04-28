@@ -43,9 +43,9 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 		for (int i = 0; i < num_masks; i++)
 		{
 			int locked = read_u8(is);
-			int size = read_int16_be(is);
-			vector<uint8_t> mask = vector<uint8_t>(size);
-			is.read((char*)&mask[0], size);
+			int getSize = read_int16_be(is);
+			vector<uint8_t> mask = vector<uint8_t>(getSize);
+			is.read((char*)&mask[0], getSize);
 			reverse_byte_vector(mask);
 			masks.push_back(mask);
 		}
@@ -54,8 +54,8 @@ VniAnimation::VniAnimation(ifstream& is, int file_version) {
 	if (file_version >= 6)
 	{
 		int linked_animation = read_u8(is);
-		int size = read_int16_be(is);
-		string anim_name = size > 0 ? read_string(is, size) : "<undefined>";
+		int getSize = read_int16_be(is);
+		string anim_name = getSize > 0 ? read_string(is, getSize) : "<undefined>";
 		uint32_t startFrame = read_u32_be(is);
 		BOOST_LOG_TRIVIAL(trace) << "[vinanimation] offset " << is.tellg() << " read anim name " << anim_name;
 	}

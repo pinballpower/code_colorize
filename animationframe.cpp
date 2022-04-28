@@ -37,7 +37,7 @@ void AnimationFrame::combine_planes(int len)
 		uint8_t planebit = 0;
 		for (auto &p: planes) {
 			// get n'th bit and set it
-			pv |= ((p.get_data()[offset] >> bit) & 0x01) << planebit;
+			pv |= ((p.getPixelData()[offset] >> bit) & 0x01) << planebit;
 			planebit++;
 		}
 

@@ -5,7 +5,7 @@
 #include "animation.h"
 #include "palmapping.h"
 
-#include "../dmd/palette_colorizer.h"
+#include "palette_colorizer.h"
 #include "../util/crc32.h"
 
 // We can enable/disbale up to 8 license features
@@ -25,7 +25,7 @@ string to_hex(const vector<uint8_t> data) {
 	return res;
 }
 
-bool Pin2DMDColorisation::configure_from_ptree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source)
+bool Pin2DMDColorisation::configureFromPtree(boost::property_tree::ptree pt_general, boost::property_tree::ptree pt_source)
 {
 	// The host id for all licensing stuff
 	vector<uint8_t> hostid = { 0,0,0,0,0,0,0,0 };
@@ -80,15 +80,21 @@ bool Pin2DMDColorisation::configure_from_ptree(boost::property_tree::ptree pt_ge
 
 DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 {
-	if (f.is_null()) {
+	if (f.isNull()) {
 		BOOST_LOG_TRIVIAL(info) << "[pin2dmdcolorisation] got NULL frame doing nothing";
 		return f;
 	}
 
+	if (f.getBitsPerPixel() > 8) {
+		BOOST_LOG_TRIVIAL(debug) << "[pin2dmdcolorisation] frame is already colored, doing nothing";
+
+		return std::move(f);
+	}
+
 	uint32_t chk;
-	BOOST_LOG_TRIVIAL(trace) << "[pin2dmdcolorisation] got frame " << f.get_width() << "x" << f.get_height() << " " << f.get_bitsperpixel() << "bpp, checksum " << f.get_checksum();
-	int w = f.get_width();
-	int h = f.get_height();
+	BOOST_LOG_TRIVIAL(trace) << "[pin2dmdcolorisation] got frame " << f.getWidth() << "x" << f.getHeight() << " " << f.getBitsPerPixel() << "bpp, checksum " << f.getChecksum();
+	int w = f.getWidth();
+	int h = f.getHeight();
 	int len = w * h;
 	int plane_len = len / 8;
 
@@ -96,8 +102,8 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 	bool found_mapping = true;
 
 	// find colormapping
-	for (int i = 0; i < f.get_bitsperpixel(); i++) {
-		vector<uint8_t> pd = f.get_plane(i);
+	for (int i = 0; i < f.getBitsPerPixel(); i++) {
+		vector<uint8_t> pd = f.getPlaneData(i);
 
 		uint32_t chk = crc32vect(pd,true);
 		BOOST_LOG_TRIVIAL(trace) << "[pin2dmdcolorisation] plane " << std::hex << i << " crc32(full frame) " << chk;
@@ -193,17 +199,17 @@ DMDFrame Pin2DMDColorisation::process_frame(DMDFrame &f)
 //	return frame;
 //}
 
-bool Pin2DMDColorisation::finished()
+bool Pin2DMDColorisation::isFinished()
 {
-	return !(frame_ready());
+	return !(isFrameReady());
 }
 
-bool Pin2DMDColorisation::frame_ready()
+bool Pin2DMDColorisation::isFrameReady()
 {
 	return src_current_frame < src_frame_count;
 }
 
-SourceProperties Pin2DMDColorisation::get_properties()
+SourceProperties Pin2DMDColorisation::getProperties()
 {
 	return SourceProperties(animations.max_width, animations.max_height, 8);
 }
@@ -214,18 +220,22 @@ vector <uint8_t> Pin2DMDColorisation::color_animation_frame(const DMDFrame &src_
 		BOOST_LOG_TRIVIAL(error) << "[pin2dmdcolorisation] mode EVENT not supported, ignoring";
 	}
 
+	if (col_mode == ModeLayeredColorMask) {
+		BOOST_LOG_TRIVIAL(error) << "[pin2dmdcolorisation] layered color masks to do";
+	}
+
 	vector <uint8_t> res;
 
 	bool is_animation = (col_mode != ModeEvent) && (col_mode != ModePalette);
 
-	uint8_t src_mask = 0xff >> (8 - src_frame.get_bitsperpixel());
+	uint8_t src_mask = 0xff >> (8 - src_frame.getBitsPerPixel());
 	uint8_t color_mask = ~src_mask & 0x7f;
 
 	auto anim_frame_data = anim_frame.get_frame_data();
 	auto animIter = anim_frame_data.cbegin();
 
 	// loop through pixels
-	for (auto src_px: src_frame.get_data()) {
+	for (auto src_px: src_frame.getPixelData()) {
 
 		DMDColor c;
 

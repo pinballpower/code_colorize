@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <vector>
 
-#include "animationplane.h"
-#include "../dmd/dmdframe.h"
+#include "animationplane.hpp"
+#include "../dmd/dmdframe.hpp"
 
 using namespace std;
 

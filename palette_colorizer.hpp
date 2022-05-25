@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../dmd/palette.h"
-#include "../dmd/dmdframe.h"
+#include "../dmd/palette.hpp"
+#include "../dmd/dmdframe.hpp"
 
 DMDFrame color_frame(const DMDFrame frame, const DMDPalette palette);

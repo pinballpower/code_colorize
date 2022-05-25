@@ -1,10 +1,10 @@
 #include <boost/log/trivial.hpp>
 
-#include "vnianimation.h"
-#include "vnianimationframe.h"
-#include "streamhelper.h"
-#include "../util/bithelper.h"
-#include "../dmd/color.h"
+#include "vnianimation.hpp"
+#include "vnianimationframe.hpp"
+#include "streamhelper.hpp"
+#include "../util/bithelper.hpp"
+#include "../dmd/color.hpp"
 
 VniAnimation::VniAnimation(ifstream& is, int file_version) {
 

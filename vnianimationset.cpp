@@ -5,9 +5,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "vnianimationset.h"
-#include "vnianimation.h"
-#include "streamhelper.h"
+#include "vnianimationset.hpp"
+#include "vnianimation.hpp"
+#include "streamhelper.hpp"
 
 using namespace std;
 

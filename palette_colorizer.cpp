@@ -1,7 +1,7 @@
 #include <boost/log/trivial.hpp>
 
-#include "../dmd/palette.h"
-#include "palette_colorizer.h"
+#include "../dmd/palette.hpp"
+#include "palette_colorizer.hpp"
 
 DMDFrame color_frame(const DMDFrame frame, const DMDPalette palette)
 {

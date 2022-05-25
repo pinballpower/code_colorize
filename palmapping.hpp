@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "switchmode.h"
+#include "switchmode.hpp"
 
 using namespace std;
 

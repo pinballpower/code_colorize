@@ -1,4 +1,4 @@
-#include "animationset.h"
+#include "animationset.hpp"
 
 const Animation AnimationSet::find(int offset)
 {

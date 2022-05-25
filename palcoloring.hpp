@@ -5,8 +5,8 @@
 #include <map>
 #include <vector>
 
-#include "palpalette.h"
-#include "palmapping.h"
+#include "palpalette.hpp"
+#include "palmapping.hpp"
 
 using namespace std;
 

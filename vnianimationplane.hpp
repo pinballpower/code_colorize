@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cstdint>
 
-#include "animationplane.h"
+#include "animationplane.hpp"
 
 class VniAnimationPlane : public AnimationPlane 
 {

@@ -1,4 +1,4 @@
-#include "animationplane.h"
+#include "animationplane.hpp"
 
 const vector<uint8_t>& AnimationPlane::getPixelData() const
 {

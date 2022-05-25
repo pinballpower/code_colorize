@@ -1,5 +1,5 @@
 #include <string>
-#include "streamhelper.h"
+#include "streamhelper.hpp"
 
 using namespace std;
 

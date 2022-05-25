@@ -3,9 +3,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "vnianimationplane.h"
-#include "../util/bithelper.h"
-#include "../util/crc32.h"
+#include "vnianimationplane.hpp"
+#include "../util/bithelper.hpp"
+#include "../util/crc32.hpp"
 
 VniAnimationPlane::VniAnimationPlane(std::ifstream& is, int plane_size, uint8_t marker)
 {

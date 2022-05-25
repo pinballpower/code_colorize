@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "switchmode.h"
-#include "animationframe.h"
+#include "switchmode.hpp"
+#include "animationframe.hpp"
 
 using namespace std;
 

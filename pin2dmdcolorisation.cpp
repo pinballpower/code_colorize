@@ -1,12 +1,12 @@
 #include <filesystem>
 
-#include "pin2dmdcolorisation.h"
-#include "animationset.h"
-#include "animation.h"
-#include "palmapping.h"
+#include "pin2dmdcolorisation.hpp"
+#include "animationset.hpp"
+#include "animation.hpp"
+#include "palmapping.hpp"
 
-#include "palette_colorizer.h"
-#include "../util/crc32.h"
+#include "palette_colorizer.hpp"
+#include "../util/crc32.hpp"
 
 // We can enable/disbale up to 8 license features
 #define LICENSE_VNI 0x01
@@ -280,9 +280,9 @@ vector <uint8_t> Pin2DMDColorisation::color_animation_frame(const DMDFrame &src_
 			assert(false);
 		}
 
-		res.push_back(c.c.cols.r);
-		res.push_back(c.c.cols.g);
-		res.push_back(c.c.cols.b);
+		res.push_back(c.r);
+		res.push_back(c.g);
+		res.push_back(c.b);
 	}
 
 	return res;

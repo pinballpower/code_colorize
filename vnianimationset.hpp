@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "animationset.h"
+#include "animationset.hpp"
 
 using namespace std;
 

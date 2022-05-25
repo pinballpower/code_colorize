@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "heatshrink_common.h"
-#include "heatshrink_config.h"
+#include "heatshrink_common.hpp"
+#include "heatshrink_config.hpp"
 
 typedef enum {
     HSDR_SINK_OK,               /* data sunk, ready to poll */

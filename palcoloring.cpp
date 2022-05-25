@@ -5,9 +5,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "palcoloring.h"
-#include "palmapping.h"
-#include "streamhelper.h"
+#include "palcoloring.hpp"
+#include "palmapping.hpp"
+#include "streamhelper.hpp"
 
 using namespace std;
 

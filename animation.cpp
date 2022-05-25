@@ -1,4 +1,4 @@
-#include "animation.h"
+#include "animation.hpp"
 
 int Animation::num_frames() const
 {

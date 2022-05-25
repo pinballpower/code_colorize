@@ -3,11 +3,11 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/log/trivial.hpp>
 
-#include "../processor/frameprocessor.h"
-#include "../dmd/dmdframe.h"
-#include "../dmdsource/dmdsource.h"
-#include "palcoloring.h"
-#include "vnianimationset.h"
+#include "../processor/frameprocessor.hpp"
+#include "../dmd/dmdframe.hpp"
+#include "../dmdsource/dmdsource.hpp"
+#include "palcoloring.hpp"
+#include "vnianimationset.hpp"
 
 class Pin2DMDColorisation : public DMDFrameProcessor, public DMDSource {
 

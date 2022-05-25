@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <map>
 
-#include "animation.h"
+#include "animation.hpp"
 
 class AnimationSet
 {

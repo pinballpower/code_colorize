@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cstdint>
 
-#include "animation.h"
+#include "animation.hpp"
 
 class VniAnimation : public Animation
 {

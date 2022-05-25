@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "animationframe.h"
+#include "animationframe.hpp"
 
 class VniAnimationFrame : public AnimationFrame {
 

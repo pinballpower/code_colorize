@@ -1,7 +1,7 @@
 #include <cassert>
 
-#include "animationframe.h"
-#include "../dmd/dmdframe.h"
+#include "animationframe.hpp"
+#include "../dmd/dmdframe.hpp"
 
 
 const vector<uint8_t> AnimationFrame::get_frame_data() const

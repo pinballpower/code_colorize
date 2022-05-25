@@ -7,7 +7,7 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "../dmd/color.h"
+#include "../dmd/color.hpp"
 
 using namespace std;
 

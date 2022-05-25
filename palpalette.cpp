@@ -3,9 +3,9 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "palpalette.h"
-#include "streamhelper.h"
-#include "../dmd/color.h"
+#include "palpalette.hpp"
+#include "streamhelper.hpp"
+#include "../dmd/color.hpp"
 
 using namespace std;
 

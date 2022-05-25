@@ -1,8 +1,8 @@
 #include <boost/log/trivial.hpp>
 
-#include "palmapping.h"
-#include "switchmode.h"
-#include "streamhelper.h"
+#include "palmapping.hpp"
+#include "switchmode.hpp"
+#include "streamhelper.hpp"
 
 bool PaletteMapping::IsAnimation() const
 {

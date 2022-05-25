@@ -2,10 +2,10 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "streamhelper.h"
-#include "../util/bithelper.h"
-#include "vnianimationframe.h"
-#include "vnianimationplane.h"
+#include "streamhelper.hpp"
+#include "../util/bithelper.hpp"
+#include "vnianimationframe.hpp"
+#include "vnianimationplane.hpp"
 
 
 VniAnimationFrame::VniAnimationFrame(ifstream& is, int file_version)
